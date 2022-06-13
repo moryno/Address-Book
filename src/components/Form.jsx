@@ -6,53 +6,97 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 7rem;
     
 
 `;
-const Wrapper = styled.div`
-    width: 30rem;
+const Wrapper = styled.form`
+    width: 40rem;
+    padding: 1rem;
+    border: 2px solid lightgray;
+    box-sizing: border-box;
 `;
 
 const Input =  styled.input`
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   border: none;
-  border-bottom: 1px solid lightgray;
   margin-right: 0.7rem;
-  width: ${props => props.width === "half" ? "40%" : "100%"}
+  margin-bottom: 1rem;
+  width: ${props => props.width === "half" ? "40%" : "87%"};
+  outline: none;
 `;
 
+const Button = styled.button`
+   padding: 0.5rem;
+   color: white;
+   background-color: teal;
+   border: none;
+   font-weight: 600;
+   font-size: 0.9rem;
+   cursor:pointer;
+`;
 
+export const Form = ({onAdd}) => {
 
-export const Form = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [street, setStreet] = useState("");
-    const [zipCode, setZipCode] = useState("");
-    const [city, setCity] = useState("");
+    const [address, setAddress] = useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      street: "",
+      zipCode: "",
+      city: ""
+    })
+
+    const handleChange = (event) => {
+      const {name, value} = event.target;
+
+      setAddress( prevAddress => {
+        return {...prevAddress, [name]: value}
+      })
+    }
+   const handleSubmit = (event) => {
+    event.preventDefault()
+    onAdd(address);
+   } 
+
   return (
     <div>
         <Container>
             <Wrapper >
                 <Input 
-                onChange={(event) => setFirstName(event.target.value)}
+                name = {"firstName"}
+                value = {address.firstName}
+                onChange={handleChange}
+                autoFocus = {true}
                  width={"half"}
                   placeholder="First Name" />
                 <Input 
-                onChange={(event) => setLastName(event.target.value)}
+                name="lastName"
+                value={address.lastName}
+                onChange={handleChange}
                  width={"half"}
                   placeholder="Last Name" />
-                <Input onChange={(event) => setEmail(event.target.value)} placeholder="Email" />
+                <Input
+                name="email"
+                value={address.email}
+                 onChange={handleChange}
+                 placeholder="Email" />
                 <Input 
-                 
-                onChange={(event) => setStreet(event.target.value)}
+                name="street"
+                value={address.street}
+                onChange={handleChange}
                  placeholder="Street" />
                 <Input 
-                onChange={(event) => setZipCode(event.target.value)}
+                name="zipCode"
+                value={address.zipCode}
+                onChange={handleChange}
                  placeholder="Zip-Code" />
-                <Input 
-                onChange={(event) => setCity(event.target.value)}
+                <Input
+                name="city" 
+                value={address.city}
+               onChange={handleChange}
                  placeholder="City" />
+                 <Button onClick={handleSubmit}>SUBMIT</Button>
             </Wrapper> 
         </Container>
     </div>
